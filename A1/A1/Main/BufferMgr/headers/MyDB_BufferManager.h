@@ -48,10 +48,20 @@ public:
 	~MyDB_BufferManager ();
 
 	// FEEL FREE TO ADD ADDITIONAL PUBLIC METHODS 
+	//array for storing memory buffer, let's use vector<void*>?, since we don't not type or char?
+	vector<void*> 
 
 private:
 
 	// YOUR STUFF HERE
+	size_t page_size;
+	size_t numPages;
+	string tempFile;
+	//a table to store file+offset and ptr to page, choose map as table and pair as key
+	Map<pair<MyDB_TablePtr,long>, MyDB_Pageptr> lookupTable;
+	//file to read anonymous value from
+	
+	//
 
 };
 

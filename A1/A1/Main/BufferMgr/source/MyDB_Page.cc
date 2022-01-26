@@ -5,9 +5,9 @@
 #include "MyDB_Page.h"
 
 using namespace std;
-MyDB_Page ::MyDB_Page(MyDB_lookTablePtr lookTable, MyDB_BufferManager &pos,size_t offset){
+MyDB_Page::MyDB_Page(MyDB_lookTablePtr lookTable, MyDB_BufferManager &pos,size_t offset){
     this->pos=pos;
-    this->lookTable=looktable;
+    this->lookTable=lookTable;
     this->bytes = nullptr;
     this->ref = 0;
     this->dirty = false;
