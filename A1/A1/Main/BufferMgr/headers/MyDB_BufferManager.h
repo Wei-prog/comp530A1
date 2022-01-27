@@ -51,6 +51,18 @@ public:
 	//array for storing memory buffer, let's use vector<void*>?, since we don't not type or char?
 	vector<void*> 
 
+
+	// //LRU Opeartions
+
+	// // Return the least recent used element in the LRU (tail)
+	// MyDB_PagePtr getTail();
+
+	// // Insert to the most recently used position of the element in the LRU (head)
+	// void insertToHead();
+
+	// // Delete and return the certain node in the list.
+	// MyDB_PagePtr remove(MyDB_PagePtr page);
+
 private:
 
 	// YOUR STUFF HERE
@@ -58,10 +70,11 @@ private:
 	size_t numPages;
 	string tempFile;
 	//a table to store file+offset and ptr to page, choose map as table and pair as key
-	Map<pair<MyDB_TablePtr,long>, MyDB_Pageptr> lookupTable;
+	Map<pair<MyDB_TablePtr,long>, MyDB_PagePtr> lookupTable;
 	//file to read anonymous value from
 	
-	//
+	// LRU
+	std::list<MyDB_PagePtr> *LRU;
 
 };
 
