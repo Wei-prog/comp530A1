@@ -8,13 +8,13 @@
 //pinned, dirty, byte, refcount, temp?->to a single file
  using namespace std;
 class MyDB_Page;
-typedef shared_ptr <MyDB_Page> MyDB_Page;
+typedef shared_ptr <MyDB_Page> MyDB_Pageptr;
 class MyDB_PageHandleBase {
 
 public:
 
 	void *getBytes ();
-	void wroteBytes ();
+	void setDirty ();
 	//I don't think this will ever used
     //maybe when destroy a page
     MyDB_Page(MyDB_lookTablePtr lookTable, MyDB_BufferManager &pos,size_t offset);
@@ -34,6 +34,7 @@ private:
     bool pin;
     void *bytes;
     int ref;
+    int offset;
 
 	// YOUR CODE HERE
 };

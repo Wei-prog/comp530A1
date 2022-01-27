@@ -21,7 +21,7 @@ public:
 
 	// get the name of the table
 	string &getName ();
-
+	
 	// get the storage location of the table
 	string &getStorageLoc ();
 
