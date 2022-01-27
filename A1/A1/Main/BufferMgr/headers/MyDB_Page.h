@@ -1,7 +1,7 @@
 #ifndef PAGE_H
 #define PAGE_H
 #include <string>
-#include<memory>
+#include <memory>
 
 //page are building blocks for buffer accessed by handler
 //property includes: 
