@@ -12,9 +12,13 @@
 
 using namespace std;
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 62504f32b4871711e9cbfaaa0a9e678279854796
 //constructor, we need pageSize, numPages in buffer, and temp location
 //we want to create memory buffer, LRU list and an empty lookup table
-MyDB_BufferManager::MyDB_BufferManager(size_t page_size,size_t numPages,string tempFile){	
+MyDB_PageHandle MyDB_BufferManager:: getPage(size_t page_size,size_t numPages,string tempFile){	
 	this->page_size = page_size;
 	this->numPages = numPages;
 	this->tempFile = tempFile;
@@ -22,11 +26,18 @@ MyDB_BufferManager::MyDB_BufferManager(size_t page_size,size_t numPages,string t
 	for (size_t i =0 ; i<numPages;i++){
 		this->memBuffer.push_back((void*)malloc(page_size));
 	}
-	//there is no need to initialize look up table or is there?
+	//TODO: there is no need to initialize look up table or is there?
 	this->lookupTable=std::map<pair<MyDB_TablePtr,long>, MyDB_Pageptr>();
+<<<<<<< HEAD
 	this->LRU = new LRUCache();
 
 }
+=======
+	//the LRU linked list, use stl list  
+	MyDB_PagePtr page;
+	this->LRU.refer(page);
+	return nullptr;
+>>>>>>> 62504f32b4871711e9cbfaaa0a9e678279854796
 
 
 MyDB_BufferManager :: ~MyDB_BufferManager () {
@@ -69,6 +80,7 @@ MyDB_PageHandle MyDB_BufferManager :: getPage (MyDB_TablePtr whichTable, long i)
 	}//if found return from table
 	return nullptr;		
 }
+
 //anonymous
 MyDB_PageHandle MyDB_BufferManager :: getPage () {
 	//check available space, idea from other people

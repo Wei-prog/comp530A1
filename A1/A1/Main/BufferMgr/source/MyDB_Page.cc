@@ -1,13 +1,15 @@
 #ifndef PAGE_C
 #define PAGE_C
 
-#include "MyDB_BufferManager.h"
-#include "MyDB_Page.h"
+#include "../headers/MyDB_Page.h"
+#include "../headers/MyDB_BufferManager.h"
+
 
 using namespace std;
-MyDB_Page::MyDB_Page(MyDB_lookTablePtr lookTable, MyDB_BufferManager &pos,size_t offset){
+// Constructure
+MyDB_Page::MyDB_Page(MyDB_TablePtr lookUpTable, MyDB_BufferManager &pos, size_t offset){
     this->pos=pos;
-    this->lookTable=lookTable;
+    this->lookUpTable=lookUpTable;
     this->bytes = nullptr;
     this->ref = 0;
     this->dirty = false;
@@ -15,29 +17,51 @@ MyDB_Page::MyDB_Page(MyDB_lookTablePtr lookTable, MyDB_BufferManager &pos,size_t
     this->offset = offset;
 }
 
+// Destructor
 MyDB_Page::~MyDB_Page(){}
 
-void *getBytes (){
- return this->byte;
-}
+
+
+
+
+/*All set function goes here*/
 void setDirty (){
     this->dirty = true;
 }
-void MyDB_Page::incRef(){
-    this->ref=ref+1;
+void setBytes(void* byteVal){
+    this->byte = byteVal;
 }
+void setPin(bool pinned){
+    this->pin = pinned;
+}
+
+// Increase the number of the PageHandleBase to the Page Object
+void MyDB_Page::incRef(){
+    this->ref=this->ref+1;
+}
+// Decrease the number of the PageHandleBase to the Page Object
 void MyDB_Page:: decRef(){
     //call destroy page when applicable
     this->ref -=1;
+    if(this->ref == 0){
+        // TODO: Call the method to kill the page
+    }
 }
-void setBytes(void* byteVal){
-    this->byte = byteVal;
+
+/*All return function goes here*/
+
+void *getBytes(){
+    return this->byte; // TODO: Still needs to check this function
 }
 bool isDirty(){
     return this->dirty;
 }
 bool isPinned(){
     return this->pin;
+}
+// There are something on the page.
+void wroteBytes(){
+    this->dirty = true;
 }
 
 
