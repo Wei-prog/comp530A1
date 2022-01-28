@@ -17,7 +17,7 @@ public:
 	void setDirty ();
 	//I don't think this will ever used
     //maybe when destroy a page
-    MyDB_Page(MyDB_lookTablePtr lookTable, MyDB_BufferManager &pos,size_t offset);
+    MyDB_Page(MyDB_TablePtr lookTable, MyDB_BufferManager &pos,size_t offset);
     ~MyDB_Page ();
     void incRef();
     void decRef();

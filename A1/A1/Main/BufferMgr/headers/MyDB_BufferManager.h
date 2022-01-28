@@ -49,7 +49,11 @@ public:
 
 	// FEEL FREE TO ADD ADDITIONAL PUBLIC METHODS 
 	//array for storing memory buffer, let's use vector<void*>?, since we don't not type or char?
-	vector<void*> 
+
+	vector<void*> memBuffer;
+	void evictPage();
+	void killPage();
+
 
 
 	// //LRU Opeartions
@@ -74,7 +78,8 @@ private:
 	//file to read anonymous value from
 	
 	// LRU
-	std::list<MyDB_PagePtr> *LRU;
+	size_t currLeftMem;
+	LRUCache *LRU = new LRUCache();
 
 };
 

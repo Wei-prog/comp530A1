@@ -12,7 +12,6 @@
 
 using namespace std;
 
-<<<<<<< HEAD
 //constructor, we need pageSize, numPages in buffer, and temp location
 //we want to create memory buffer, LRU list and an empty lookup table
 MyDB_BufferManager::MyDB_BufferManager(size_t page_size,size_t numPages,string tempFile){	
@@ -25,16 +24,23 @@ MyDB_BufferManager::MyDB_BufferManager(size_t page_size,size_t numPages,string t
 	}
 	//there is no need to initialize look up table or is there?
 	this->lookupTable=std::map<pair<MyDB_TablePtr,long>, MyDB_Pageptr>();
-	//the LRU linked list, use stl list  
-=======
-MyDB_PageHandle MyDB_BufferManager :: getPage (MyDB_TablePtr, long) {	
-	MyDB_PagePtr page;
-	this->LRU.refer(page);
-	return nullptr;
-}
->>>>>>> f5e941b241065777177538ecf0442ac5af1c6143
+	this->LRU = new LRUCache();
 
 }
+
+
+MyDB_BufferManager :: ~MyDB_BufferManager () {
+	//empty buffer
+	for(auto buf:this->memBuffer){
+		free(buf);
+	}
+	for(auto kv :this->lookupTable){
+		
+	}
+	
+}
+
+
 //
 MyDB_PageHandle MyDB_BufferManager :: getPage (MyDB_TablePtr whichTable, long i) {
 	//the pos of a current page should be whichtable address+i 
@@ -44,66 +50,87 @@ MyDB_PageHandle MyDB_BufferManager :: getPage (MyDB_TablePtr whichTable, long i)
 		std::cout<< "When getting page, table pointer is null."<<endl;
 		exit(1);
 	}
-	//if no such page found, create and push into table, also LRU and memory buffer, how do I do it?
-	MyDB_PageHandle naPage =  new 
-	return ;		
+	pair<MyDB_TablePtr,long> pageId = make_pair(whichTable,i);
+	//if no such page found, create and push into table
+	//see iterator find for iterating map
+	std::map<pair<MyDB_TablePtr,long>>::iterator it;
+	it=lookupTable.find(pageId);
+    if(it==lookupTable.end()){
+		if (this->currLeftMem==0)
+			this->evictPage();
+		MyDB_Pageptr naPage = make_shared<MyDB_Page> (whichTable,*this,i);
+		(this->LRU)->updateList(naPage);
+		return make_shared<MyDB_PageHandleBase> (naPage);
+	}
+	else{
+		MyDB_Pageptr naPage = lookupTable[pageId]
+		(this->LRU)->addPage(naPage);
+		return make_shared<MyDB_PageHandleBase>(lookupTable[pageId]);
+	}//if found return from table
+	return nullptr;		
 }
 //anonymous
 MyDB_PageHandle MyDB_BufferManager :: getPage () {
-	MyDB_PagePtr page;
-	this->LRU.refer(page);
-	return nullptr;		
+	//check available space, idea from other people
+	if (this->currLeftMem==0){
+		this->evictPage();
+	}
+	if (this->currLeftMem==0){
+		//do nothing
+		return nullptr;
+	}
+	//file index is ptr in file to find page
+	pair<MyDB_TablePtr,long> whichPage = make_pair(nullptr,this->fileIndex);
+	//to do::: see page constructor for anonymous page, the same. For aPage, key in lookuptable is nullptr, and fileindex
+	//I really want to make the nullptr a file ptr
+	//why using lookup table and they do not have id so not reusable.
+	//for constructing page for aPage, whichtable is the filename, index is offset, and buffer manager is always this buffer manager
+	MyDB_PagePtr aPage = make_shared<MyDB_Page>(*fileptrtolookfrom,*this,this->fileIndex)
+	this->lookupTable[whichPage] = aPage;
+	this->fileIndex +=1;
+	return make_shared<MyDB_PageHandleBase> (aPage);		
 }
 
-MyDB_PageHandle MyDB_BufferManager :: getPinnedPage (MyDB_TablePtr, long) {
+//what is the difference? Keep an attribute isPin = true to avoid eviction,
+//delete it from LRU and when unpinned, put back to LRU as most recently used
+//similar to constructor overload get pinned/get page
+MyDB_PageHandle MyDB_BufferManager :: getPinnedPage (MyDB_TablePtr whichTable, long i) {
+	if(whichTable == nullptr){
+		std:cout<<"null ptr whichTable, should be anaony"<<endl;
+		exit(1);
+	}
+	pair<MyDB_TablePtr,long> whichPage = make_pair(whichTable,i);
+	std::map<pair<>>::iterator it;
+	it=lookupTable.find(pageId);
+    if(it==lookupTable.end()){
+		if (this->currLeftMem==0)
+			this->evictPage();
+		MyDB_Pageptr naPage = make_shared<MyDB_Page> (whichTable,*this,i);
+		naPage.setPin(true);
+		return make_shared<MyDB_PageHandleBase> (naPage);
+	}
+	else{
+		MyDB_Pageptr naPage = lookupTable[pageId];
+		naPage.setPin(true);
+		return make_shared<MyDB_PageHandleBase>(lookupTable[pageId]);
+	}//if found return from table		
 	return nullptr;		
 }
 
 MyDB_PageHandle MyDB_BufferManager :: getPinnedPage () {
-	return nullptr;		
+	if(this->currLeftMem==0)
+		this->evictPage();
+	pair<MyDB_Tableptr,long> whichPage = make_pair(nullptr,this->fileIndex);
+	MyDB_Pageptr aPage = make_shared<MyDB_Page>(nullptr,*this,fileIndex);
+	aPage->setPin(true);
+	this->fileIndex +=1;
+	pageTable[whichPage]=aPage;
+	return make_shared<MyDB_PangeHandleBase>(aPage);
+
 }
 
 void MyDB_BufferManager :: unpin (MyDB_PageHandle unpinMe) {
-}
-
-MyDB_BufferManager :: MyDB_BufferManager (size_t, size_t, string) {
-	long sizeofCache;
-	// Create a LRU Cache
-	this->LRU  = LRUCache::cache(sizeofCache);
-}
-
-MyDB_BufferManager :: ~MyDB_BufferManager () {
-	// TODO: Empty the LRU list 
-	
-}
-
-// Create a LRU Cache
-LRUCache::LRUCache(long n){
-    this->size = n;
-}
-
-//TODO: Refers key x with in the LRU cache
-void LRUCache::refer(MyDB_PagePtr x){
-	// not present in cache
-	if (map.find(x) == map.end()) {
-		// cache is full
-		if (LRU.size() == this->size) {
-			// delete least recently used element
-			MyDB_PagePtr last = LRU.back();
-
-			// Pops the last element
-			LRU.pop_back();
-
-			// Erase the last
-			map.erase(last);
-		}
-	}
-	// present in cache
-	else
-		LRU.erase(map[x]);
-	// update reference
-	LRU.push_front(x);
-	map[x] = LRU.begin();
+	unpinMe->currPage->setPin(false);
 }
 
 
