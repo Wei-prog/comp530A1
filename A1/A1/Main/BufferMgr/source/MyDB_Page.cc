@@ -5,6 +5,7 @@
 #include "MyDB_Page.h"
 
 using namespace std;
+// Constructure
 MyDB_Page::MyDB_Page(MyDB_lookTablePtr lookTable, MyDB_BufferManager &pos,size_t offset){
     this->pos=pos;
     this->lookTable=lookTable;
@@ -15,6 +16,7 @@ MyDB_Page::MyDB_Page(MyDB_lookTablePtr lookTable, MyDB_BufferManager &pos,size_t
     this->offset = offset;
 }
 
+// Destructor
 MyDB_Page::~MyDB_Page(){}
 
 void *getBytes (){

@@ -13,12 +13,18 @@ class MyDB_PageHandleBase {
 
 public:
 
-	void *getBytes ();
-	void setDirty ();
-	//I don't think this will ever used
-    //maybe when destroy a page
-    MyDB_Page(MyDB_lookTablePtr lookTable, MyDB_BufferManager &pos,size_t offset);
+    // Constructure
+    MyDB_Page(MyDB_lookTablePtr lookTable, MyDB_BufferManager &pos,size_t offset); // TODO: Arguments remain to be checked
+    
+    // Destructor
     ~MyDB_Page ();
+
+    // Get the Bytes from the page object
+	void *getBytes ();
+
+    // Set page to a dirty page if it is
+	void setDirty ();
+
     void incRef();
     void decRef();
     void setBytes();
