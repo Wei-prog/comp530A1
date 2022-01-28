@@ -35,9 +35,16 @@ public:
 
 	// FEEL FREE TO ADD ADDITIONAL PUBLIC METHODS
 
-private:
+	// We will need a constructor when add new PageHandleBase.
+	MyDB_PageHandleBase(MyDB_Pageptr page);
 
+private:
 	// YOUR CODE HERE
+	// Since the PageHandle only need hand page. We will just have one private objects.
+	// Since the smartPointer will automatically handle and count the PageHandle and will
+	// call deconstructor when pagehandle goes to zero, we will no longer need counter to count PageHandle.
+
+	MyDB_Pageptr page;
 };
 
 #endif
