@@ -12,7 +12,10 @@
 
 using namespace std;
 
+<<<<<<< HEAD:A1/A1/Main/BufferMgr/source/MyDB_BufferManager.cc
 
+=======
+>>>>>>> 635c734a8c3576434dbcd90c7b6493428a0498f3:Main/BufferMgr/source/MyDB_BufferManager.cc
 //constructor, we need pageSize, numPages in buffer, and temp location
 //we want to create memory buffer, LRU list and an empty lookup table
 MyDB_PageHandle MyDB_BufferManager:: getPage(size_t page_size,size_t numPages,string tempFile){	
@@ -28,7 +31,10 @@ MyDB_PageHandle MyDB_BufferManager:: getPage(size_t page_size,size_t numPages,st
 	this->LRU = new LRUCache();
 
 }
+<<<<<<< HEAD:A1/A1/Main/BufferMgr/source/MyDB_BufferManager.cc
 
+=======
+>>>>>>> 635c734a8c3576434dbcd90c7b6493428a0498f3:Main/BufferMgr/source/MyDB_BufferManager.cc
 
 
 MyDB_BufferManager :: ~MyDB_BufferManager () {
