@@ -1,3 +1,4 @@
+
 #ifndef PAGE_C
 #define PAGE_C
 
@@ -11,18 +12,16 @@ MyDB_Page::MyDB_Page(MyDB_TablePtr lookUpTable, MyDB_BufferManager &pos, size_t 
     this->pos=pos;
     this->lookUpTable=lookUpTable;
     this->bytes = nullptr;
-    this->ref = 0;
+    this->ref = 1;
     this->dirty = false;
     this->pin = false;
     this->offset = offset;
 }
 
 // Destructor
-MyDB_Page::~MyDB_Page(){}
-
-
-
-
+MyDB_Page::~MyDB_Page(){
+    
+}
 
 /*All set function goes here*/
 void setDirty (){

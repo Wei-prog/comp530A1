@@ -21,6 +21,17 @@ public:
     void refer(MyDB_PagePtr);
     void findNode();
     void updateList();
+    	// //LRU Opeartions
+
+	// // Return the least recent used element in the LRU (tail)
+	// MyDB_PagePtr getTail();
+
+	// // Insert to the most recently used position of the element in the LRU (head)
+	// void insertToHead();
+
+	// // Delete and return the certain node in the list.
+	// MyDB_PagePtr remove(MyDB_PagePtr page);
+}
     
 
 };

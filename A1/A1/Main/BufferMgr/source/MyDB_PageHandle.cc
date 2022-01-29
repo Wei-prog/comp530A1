@@ -6,15 +6,21 @@
 #include "MyDB_PageHandle.h"
 
 void *MyDB_PageHandleBase :: getBytes () {
+	//update of LRU here, then
+	//if(this->pagePtr is in buffer){
+		//this->pagePtr->updateLRU(this->pagePtr);
+	//}
+	//same logic with get page, write there to reduce code lines
 	return this->page->getBytes();
 }
 
 void MyDB_PageHandleBase :: wroteBytes () {
-	this->page->wroteBytes(); // TODO: Check the way call the method
+	this->page->setDirty(true);
+	this->page->wroteBytes(); 
 }
 
 MyDB_PageHandleBase :: ~MyDB_PageHandleBase () {
-	this->page->decRef(); // TODO: Check the way call this method
+	this->page->decRef(); 
 }
 
 
