@@ -44,6 +44,9 @@ class MyDB_Page {
 
         void *bytes;
         size_t offset;
+        
+        /*Find the look up table*/
+        MyDB_TablePtr getTable();
 
         // FEEL FREE TO ADD ADDITIONAL PUBLIC METHODS
 

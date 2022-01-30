@@ -19,9 +19,7 @@ MyDB_Page::MyDB_Page(MyDB_TablePtr lookUpTable, MyDB_BufferManager &pos, size_t 
 }
 
 // Destructor
-MyDB_Page::~MyDB_Page(){
-    
-}
+// MyDB_Page::~MyDB_Page(){}
 
 /*All set function goes here*/
 void setDirty (){
@@ -62,6 +60,8 @@ bool isPinned(){
 void wroteBytes(){
     this->dirty = true;
 }
-
+MyDB_TablePtr getParentTable(){
+    return this->lookUpTable;
+}
 
 #endif

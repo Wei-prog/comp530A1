@@ -3,6 +3,7 @@
 #define BUFFER_MGR_C
 
 #include "MyDB_BufferManager.h"
+#include "MyDB_Page.h"
 #include "MyDB_LRU.h"
 #include <string>
 #include <list>
@@ -11,6 +12,10 @@
 #include <fstream>
 #include <map>
 #include <utility>
+#include <sys/types.h>
+#include <sys/uio.h>
+#include <iostream>
+#include <fcntl.h>
 
 using namespace std;
 
@@ -34,21 +39,41 @@ MyDB_BufferManager:: MyDB_BufferManager(size_t page_size,size_t numPages,string 
 
 MyDB_BufferManager :: ~MyDB_BufferManager () {
 	// Empty the lookupTable
-	// for(auto page: this->lookupTable){
-
-	// }
+	for(auto page_itr: this->lookupTable){
+		MyDB_Pageptr page = page_itr.second;
+		if(page->isDirty()){
+			// If page is dirty write back to the disk
+			int file;
+			if(page->getTable() == nullptr){
+				file = open (this->tempFile.c_str(), O_CREAT | O_RDWR | O_SYNC, 0666);
+			}else{
+				file = open (page->getTable()->getStorageLoc().c_str (), O_CREAT | O_RDWR | O_SYNC, 0666);
+			}
+				lseek (file, page->getOffset() * pageSize, SEEK_SET);
+				write (file, page->bytes, pageSize);
+				close (file);
+		}else{
+			free(page->bytes); // TODO: Check whether this is malloc
+			page->setBytes(nullptr);
+		}
+	}
 
 	//empty buffer
 	for(auto buf:this->memBuffer){
 		//write content to disk using LRU OR memBuffer TODO: ????
-		buf.writeToDisk()
+		// buf.writeToDisk()
 		free(buf);
 	}
 	for(auto kv :this->lookupTable){
 		free(kv);
 	}
 
-	
+	// Empty LRU
+	free(this->LRU);
+
+	//TODO: /* Delete the file*/
+
+	unlink(this->tempFile.cstr())
 }
 
 
