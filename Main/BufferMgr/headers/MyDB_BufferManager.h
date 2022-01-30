@@ -3,8 +3,11 @@
 #define BUFFER_MGR_H
 
 #include "MyDB_PageHandle.h"
+#include "MyDB_LRU.h"
 #include "MyDB_Table.h"
-
+#include <vector>
+#include <map>
+#include <utility>
 using namespace std;
 
 class MyDB_BufferManager {
@@ -50,7 +53,7 @@ public:
 	// FEEL FREE TO ADD ADDITIONAL PUBLIC METHODS 
 	//array for storing memory buffer, let's use vector<void*>?, since we don't not type or char?
 
-	vector<void*> memBuffer;
+	vector <void *> memBuffer;
 	void evictPage();
 	void killPage();
 
@@ -62,12 +65,13 @@ private:
 	size_t numPages;
 	string tempFile;
 	//a table to store file+offset and ptr to page, choose map as table and pair as key
-	Map<pair<MyDB_TablePtr,long>, MyDB_PagePtr> lookupTable;
+	map<pair<MyDB_TablePtr,long>, MyDB_Pageptr> lookupTable;
 	//file to read anonymous value from
 	
 	// LRU
 	size_t currLeftMem;
-	LRUCache *LRU = new LRUCache();
+	// LRUCache *LRU = new LRUCache();
+	LRUCache *LRU;
 
 };
 

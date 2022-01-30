@@ -7,7 +7,7 @@ using namespace std;
 class LRUCache {
     // store keys of cache
 private:
-    std::list<MyDB_PagePtr> LRU;
+    std::list<MyDB_Pageptr> LRU;
     void removeNode();
     // size of cache, we don't need
     
@@ -18,10 +18,11 @@ public:
     // for now no parameter becuase the buffer manager holds the thing, all we need is a start point ptr
     LRUCache();
     ~LRUCache();
-    void refer(MyDB_PagePtr);
+    void refer(MyDB_Pageptr);
     void findNode();
     void updateList();
-    	// //LRU Opeartions
+    
+    // //LRU Opeartions
 
 	// // Return the least recent used element in the LRU (tail)
 	// MyDB_PagePtr getTail();
@@ -31,9 +32,6 @@ public:
 
 	// // Delete and return the certain node in the list.
 	// MyDB_PagePtr remove(MyDB_PagePtr page);
-}
-    
-
 };
 
 #endif
